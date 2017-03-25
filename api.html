@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript"></script>
+<!--<script>-->
+    <!--$(document).ready(function() {-->
+        <!--$("button").click(function(){-->
+            <!--const serialize = obj => {-->
+                <!--var str = []-->
+                <!--for(var p in obj)-->
+                    <!--if (obj.hasOwnProperty(p)) {-->
+                        <!--str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))-->
+                    <!--}-->
+                <!--return str.join('&')-->
+            <!--}-->
+            <!--const data1={grant_type:'password',username:'13800002000',password:'secret'};-->
+            <!--$.ajax({-->
+                <!--type: 'POST',-->
+                <!--async: false,-->
+                <!--url: 'http://tms-stage.obenben.com/oauth/token',-->
+                <!--dataType:'jsonp',-->
+                <!--contentType:'application/x-www-form-urlencoded;charset=UTF-8'+serialize(data1),-->
+                <!--responseType:'json',-->
+                <!--data:serialize(data1),-->
+                <!--success: function (data) {-->
+                    <!--console.log(data)-->
+                <!--},error:function (XMLHttpRequest, textStatus, errorThrown) {-->
+                    <!--console.log("错误状态：" + XMLHttpRequest.status + "," + XMLHttpRequest.readyState + "," + textStatus+errorThrown);-->
+                <!--}-->
+            <!--});-->
+        <!--});-->
+    <!--})-->
+<!--</script>-->
+
+<script>
+    var getJSON = function(url) {
+        var promise = new Promise(function(resolve, reject){
+            var client = new XMLHttpRequest();
+            client.open("GET", url);
+            client.onreadystatechange = handler;
+            client.responseType = "json";
+            client.setRequestHeader("Accept", "application/json");
+            client.send();
+
+            function handler() {
+                if (this.readyState !== 4) {
+                    return;
+                }
+                if (this.status === 200) {
+                    resolve(this.response);
+                } else {
+                    reject(new Error(this.statusText));
+                }
+            };
+        });
+
+        return promise;
+    };
+    var postJSON = function(url) {
+        var promise = new Promise(function(resolve, reject){
+            const serialize = obj => {
+                var str = []
+                for(var p in obj)
+                    if (obj.hasOwnProperty(p)) {
+                        str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
+                    }
+                return str.join('&')
+            }
+            const data1={grant_type:'password',username:'13800002000',password:'secret'};
+            var client = new XMLHttpRequest();
+            client.open("POST", url);
+            client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+            client.setRequestHeader('authorization', 'Basic d2ViOnNlY3JldA==');
+            client.responseType = "json";
+            client.send(serialize(data1));
+        });
+
+        return promise;
+    };
+//    getJSON("http://tms-stage.obenben.com/api").then(function (data) {
+//        console.log(data)
+//    },function (error) {
+//        console.log(error)
+//    })
+      postJSON("http://tms-stage.obenben.com/oauth/token").then(function(json) {
+        console.log('Contents: ');
+    }, function(error) {
+        console.error('出错了', error);
+    });
+</script>
+<body>
+<button>向页面发送 HTTP GET 请求，然后获得返回的结果</button>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "reactdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "hjs-dev-server",
+    "build": "webpack",
+    "deploy": "npm run build && surge -p public -d somedomain.com"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hjs-webpack": "^8.4.3"
+  }
+}
